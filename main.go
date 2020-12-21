@@ -40,8 +40,13 @@ func handler(c *gin.Context) {
 }
 
 func main() {
-	app := gin.Default()
-	app.GET("/", handler)
+	gin.SetMode(gin.ReleaseMode)
 
+	app := gin.New()
+	app.Use(gin.Recovery())
+	app.RedirectTrailingSlash = true
+	app.HandleMethodNotAllowed = false
+
+	app.GET("/", handler)
 	log.Fatal(app.Run("0.0.0.0:8080"))
 }
