@@ -1,5 +1,8 @@
 # GoTemplating
 ## Benchmark Results
+```
+hey -n 500 http://localhost:8080/
+```
 ### With Gin
 ```
 Summary:
