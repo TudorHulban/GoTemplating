@@ -4,6 +4,7 @@
 hey -n 500 http://localhost:8080/
 ```
 ### With Gin
+(debug mode)
 ```
 Summary:
   Total:	0.0709 secs
