@@ -5,7 +5,7 @@ import (
 	"io"
 	"log"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gin-gonic/gin"
 	"github.com/pkg/errors"
 )
 
@@ -29,21 +29,19 @@ func render(w io.Writer, p Product) error {
 	return nil
 }
 
-func handler(c *fiber.Ctx) error {
+func handler(c *gin.Context) {
 	p := Product{
 		Name:       "Apple",
 		Quantity:   400,
 		PriceCents: 150,
 	}
 
-	return render(c.Response().BodyWriter(), p)
+	render(c.Writer, p)
 }
 
 func main() {
-	app := fiber.New(fiber.Config{
-		StrictRouting: true,
-	})
+	app := gin.Default()
+	app.GET("/", handler)
 
-	app.Get("/", handler)
-	log.Fatal(app.Listen(":3000"))
+	log.Fatal(app.Run("0.0.0.0:8080"))
 }
