@@ -15,13 +15,30 @@ type Product struct {
 	PriceCents float32
 }
 
-func render(w io.Writer, p Product) error {
+var templ *template.Template
+
+// Used code as per:
+// https://stackoverflow.com/questions/45828142/golang-multi-templates-caching
+func prepTemplate() (*template.Template, error) {
 	parsedTemplate, errParse := template.ParseFiles("index.html")
 	if errParse != nil {
-		return errors.Wrap(errParse, "could not parse template")
+		return nil, errors.Wrap(errParse, "could not parse template")
 	}
 
-	errExec := parsedTemplate.Execute(w, p)
+	var errMust error
+	return template.Must(parsedTemplate, errMust), errMust
+}
+
+func render(w io.Writer, p Product) error {
+	if templ == nil {
+		var errPrep error
+		templ, errPrep = prepTemplate()
+		if errPrep != nil {
+			log.Fatal("could not prepare template")
+		}
+	}
+
+	errExec := templ.Execute(w, p)
 	if errExec != nil {
 		return errors.Wrap(errExec, "could not execute template")
 	}
