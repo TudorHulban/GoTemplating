@@ -27,3 +27,8 @@ Summary:
   Total data:	418500 bytes
   Size/request:	279 bytes
 ```
+
+## Resources
+```
+https://www.calhoun.io/intro-to-templates/
+```

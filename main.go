@@ -20,7 +20,7 @@ var templ *template.Template
 // Used code as per:
 // https://stackoverflow.com/questions/45828142/golang-multi-templates-caching
 func prepTemplate() (*template.Template, error) {
-	parsedTemplate, errParse := template.ParseFiles("index.html")
+	parsedTemplate, errParse := template.ParseFiles("index.gohtml")
 	if errParse != nil {
 		return nil, errors.Wrap(errParse, "could not parse template")
 	}
