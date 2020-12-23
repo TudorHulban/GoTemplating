@@ -10,9 +10,22 @@ import (
 )
 
 type Product struct {
-	Name       string
-	Quantity   uint
-	PriceCents float32
+	ID                 uint
+	SKU                string
+	Category           string
+	Slug               string
+	Name               string
+	Description        string
+	SEOMetaTitle       string
+	SEOMetaDescription string
+	Quantity           uint
+	PriceCents         float32
+}
+
+type ProductImage struct {
+	ProductID uint
+	MetaALT   string // holds alt for image
+	Path      string
 }
 
 var templ *template.Template
