@@ -1,6 +1,9 @@
 # GoTemplating
 Sandbox for testing templating with Go.
 
+TODO:
+a. consider if interface for fetching products from CSV file or DB is justified.
+
 ## Benchmark Results
 ```
 hey -n 1500 http://localhost:8080/

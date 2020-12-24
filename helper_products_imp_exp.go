@@ -6,9 +6,9 @@ import (
 	"github.com/gocarina/gocsv"
 )
 
-// file contains handling of data file import in CSV format
+// file contains handling of data file import in CSV format.
 
-// exportProducts Helper exports products to file.
+// exportProducts Helper exports products to CSV file.
 func exportProducts(p []*Product, path string) error {
 	dataFile, errOpen := os.OpenFile(path, os.O_RDWR|os.O_CREATE, os.ModePerm)
 	if errOpen != nil {
@@ -19,6 +19,7 @@ func exportProducts(p []*Product, path string) error {
 	return gocsv.MarshalFile(&p, dataFile)
 }
 
+// importProducts Helper imports products from CSV file.
 func importProducts(path string) ([]*Product, error) {
 	dataFile, errOpen := os.OpenFile(path, os.O_RDWR|os.O_CREATE, os.ModePerm)
 	if errOpen != nil {
