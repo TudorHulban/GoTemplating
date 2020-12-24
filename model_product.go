@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/TudorHulban/GoTemplating/pkg/validator"
+	"github.com/TudorHulban/GoTemplating/pkg/validate"
 )
 
 // concentrates product type related actions
@@ -10,8 +10,8 @@ type Product struct {
 	ID                 uint   `gorm:"primaryKey"`
 	SKU                string `gorm:"uniqueIndex"`
 	Category           string
-	Slug               string `gorm:"uniqueIndex"`
 	Name               string `validate:"required"`
+	Slug               string `gorm:"uniqueIndex"`
 	Description        string `validate:"required"`
 	SEOMetaTitle       string
 	SEOMetaDescription string
@@ -27,5 +27,5 @@ type ProductImage struct {
 }
 
 func validateProduct(p *Product) error {
-	return validator.GetValidator().Struct(p)
+	return validate.GetValidator().Struct(p)
 }
