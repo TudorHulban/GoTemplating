@@ -14,10 +14,10 @@ func getRandomWord() string {
 	return wordsLatin[rand.Intn(len(wordsLatin))]
 }
 
-func generateWords(length int) string {
+func generateWords(length uint) string {
 	result := "Lorem "
 
-	for i := 0; i < length-1; i++ {
+	for i := 0; i < int(length)-1; i++ {
 		result = result + getRandomWord() + " "
 	}
 
@@ -37,16 +37,18 @@ func generatorProducts(no uint) []*Product {
 
 	result := make([]*Product, int(no))
 	for i, id := range rangeID {
+		name := generateWords(2)
+
 		result[i] = &Product{
 			ID:              id,
-			SKU:             "SKU" + strconv.FormatUint(id, 10),
+			SKU:             "SKU" + strconv.FormatUint(uint64(id), 10),
 			Category:        "cosmetics",
-			Name:            generateWords(2),
-			Slug:            strings.Join(strings.Split(Name, " "), "-"),
+			Name:            name,
+			Slug:            strings.Join(strings.Split(name, " "), "-"),
 			Description:     generateWords(10 + id),
 			Quantity:        id,
-			PriceCents:      id * 100,
-			SalesPriceCents: id*100 - id,
+			PriceCents:      float32(id * 100),
+			SalesPriceCents: float32(id*100 - id),
 		}
 
 	}

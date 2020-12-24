@@ -1,3 +1,6 @@
-ID,SKU,Category,Slug,Name,Description,SEOMetaTitle,SEOMetaDescription,Quantity,PriceCents,SalesPriceCents
-1,,,,Jelly Bean,,,,0,0,99
-2,,,,Honey,,,,0,0,299
+ID,SKU,Category,Name,Slug,Description,SEOMetaTitle,SEOMetaDescription,Quantity,PriceCents,SalesPriceCents
+1,SKU1,cosmetics,Lorem mauris ,Lorem-mauris-,Lorem sea aliquam ut justo splendide rhoncus ipsum leo ipsum impedit ,,,1,100,99
+2,SKU2,cosmetics,Lorem duo ,Lorem-duo-,Lorem graeci insolens est mea dicunt kasd mus nullam elementum ei tincidunt ,,,2,200,198
+3,SKU3,cosmetics,Lorem ullamcorper ,Lorem-ullamcorper-,Lorem cetero et aliquyam uonsetetur imperdiet kasd at adipisci nec justo amet duo ,,,3,300,297
+4,SKU4,cosmetics,Lorem aliquam ,Lorem-aliquam-,Lorem at rhoncus nullam splendide facilisi invidunt antiopam duo et splendide amet te vitae ,,,4,400,396
+5,SKU5,cosmetics,Lorem partiendo ,Lorem-partiendo-,Lorem at per inimicus imperdiet rhoncus labore usu vel assentior cursus kasd kasd semper duo ,,,5,500,495
