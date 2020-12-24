@@ -6,8 +6,14 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestExport(t *testing.T) {
-	path := "test.csv"
+const path = "test.csv"
 
+func TestExport(t *testing.T) {
 	assert.Nil(t, exportProducts(generatorProducts(2), path))
+}
+
+func TestImport(t *testing.T) {
+	p, errImport := importProducts(path)
+	assert.Nil(t, errImport)
+	assert.Equal(t, len(p), 2)
 }
