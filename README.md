@@ -1,4 +1,6 @@
 # GoTemplating
+Sandbox for testing templating with Go.
+
 ## Benchmark Results
 ```
 hey -n 1500 http://localhost:8080/

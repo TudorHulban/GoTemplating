@@ -7,6 +7,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/pkg/errors"
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 )
 
 type Product struct {
@@ -20,6 +22,7 @@ type Product struct {
 	SEOMetaDescription string
 	Quantity           uint
 	PriceCents         float32
+	SalesPriceCents    float32
 }
 
 type ProductImage struct {
@@ -28,6 +31,7 @@ type ProductImage struct {
 	Path      string
 }
 
+var _db *gorm.DB
 var templ *template.Template
 
 // Used code as per:
@@ -70,6 +74,14 @@ func handler(c *gin.Context) {
 }
 
 func main() {
+	var errOpen error
+	_db, errOpen = gorm.Open(sqlite.Open("blog.db"), &gorm.Config{
+		SkipDefaultTransaction: true,
+	})
+	if errOpen != nil {
+		log.Fatalf("could not connect to database")
+	}
+
 	gin.SetMode(gin.ReleaseMode)
 
 	app := gin.New()
