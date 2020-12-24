@@ -11,7 +11,7 @@ func generatorProducts(no uint) []*Product {
 	}
 
 	p2 := &Product{
-		ID:              1,
+		ID:              2,
 		Name:            "Honey",
 		SalesPriceCents: 299,
 	}

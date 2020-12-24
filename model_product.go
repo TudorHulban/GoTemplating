@@ -26,6 +26,6 @@ type ProductImage struct {
 	Path      string
 }
 
-func validateProduct(p []Product) error {
+func validateProduct(p *Product) error {
 	return validator.GetValidator().Struct(p)
 }
