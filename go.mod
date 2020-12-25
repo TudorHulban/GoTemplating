@@ -3,6 +3,7 @@ module github.com/TudorHulban/GoTemplating
 go 1.15
 
 require (
+	github.com/TudorHulban/log v0.0.0-20201216115659-7cefc8a49602
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-playground/validator/v10 v10.4.1
 	github.com/gocarina/gocsv v0.0.0-20201208093247-67c824bc04d4
