@@ -13,3 +13,8 @@ type Article struct {
 	RelatedProductsSKUs       []uint64 `json:"SKUs"`
 	RelatedProductsCategories []string `json:"categories"`
 }
+
+// ValidateArticle Validates article. To be moved in articles package for all implementations to benefit.
+func ValidateArticle(a Article) error {
+	return nil
+}

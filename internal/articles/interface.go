@@ -1,6 +1,7 @@
 package articles
 
-type IArticles interface {
+// IArticles interface added for different implementations / types of persistance.
+type IBlog interface {
 	GetArticles() ([]Article, error)
 	GetArticle(code string) (Article, error)
 	GetRelatedArticles(sku uint64, howMany uint8) (Article, error)
