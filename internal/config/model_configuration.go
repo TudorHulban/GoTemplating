@@ -64,6 +64,7 @@ func defaultConfiguration() (*AppConfiguration, error) {
 }
 
 // saveConfiguration Helper saves configuration if one does not have a file for configuring the app.
+// TODO: add file to save into.
 func saveConfiguration(cfg *AppConfiguration) error {
 	file, errUnmar := json.MarshalIndent(cfg, "", " ")
 	if errUnmar != nil {
