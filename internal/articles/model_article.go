@@ -10,6 +10,7 @@ type Article struct {
 	AUthor                    string   `json:"author"`
 	Content                   string   `json:"content"`
 	HTMLTemplate              string   `json:"html"`
+	FeaturedImagePath         string   `json:"featuredimage"`
 	RelatedProductsSKUs       []uint64 `json:"SKUs"`
 	RelatedProductsCategories []string `json:"categories"`
 }

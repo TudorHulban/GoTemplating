@@ -9,11 +9,27 @@ import (
 	"github.com/pkg/errors"
 )
 
+// HTMLPageTemplates Consolidates HTML page templates.
+// All templates shold share same containing folder and fields should be file names only.
+type HTMLPageTemplates struct {
+	ContainingFolder string
+	PageShell        string
+	Head             string
+	Meta             string
+	Header           string
+	Body             string
+	// Section , Aside string
+	Article string
+	Footer  string
+}
+
 // AppConfiguration Structure holding application configuration.
 type AppConfiguration struct {
-	TemplatesFolder string
-	RenderFolder    string
-	l               *log.LogInfo
+	RenderFolder string
+
+	HTMLPageTemplates
+
+	l *log.LogInfo
 }
 
 func defaultConfiguration() (*AppConfiguration, error) {
@@ -23,9 +39,18 @@ func defaultConfiguration() (*AppConfiguration, error) {
 	}
 
 	result := &AppConfiguration{
-		TemplatesFolder: ".." + executableFolder + "/static/assets",
-		RenderFolder:    ".." + executableFolder + "/static",
-		l:               log.New(log.DEBUG, os.Stdout, true),
+		RenderFolder: ".." + executableFolder + "/static",
+		HTMLPageTemplates: HTMLPageTemplates{
+			ContainingFolder: ".." + executableFolder + "/static/assets",
+			PageShell:        "01_page_shell.gohtml",
+			Head:             "02_head.gohtml",
+			Meta:             "03_meta.gohtml",
+			Header:           "04_header.gohtml",
+			Body:             "05_body.gohtml",
+			Article:          "06_article.gohtml",
+			Footer:           "07_footer.gohtml",
+		},
+		l: log.New(log.DEBUG, os.Stdout, true),
 	}
 
 	return result, saveConfiguration(result)
@@ -53,8 +78,7 @@ func NewConfiguration(importFrom string, logLevel int) (*AppConfiguration, error
 	}
 
 	var result struct {
-		Template string
-		Render   string
+		Render string
 	}
 
 	errUnmar := json.Unmarshal(data, &result)
@@ -63,8 +87,7 @@ func NewConfiguration(importFrom string, logLevel int) (*AppConfiguration, error
 	}
 
 	return &AppConfiguration{
-		TemplatesFolder: result.Template,
-		RenderFolder:    result.Render,
-		l:               log.New(logLevel, os.Stdout, true),
+		RenderFolder: result.Render,
+		l:            log.New(logLevel, os.Stdout, true),
 	}, nil
 }
