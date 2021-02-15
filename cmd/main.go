@@ -15,4 +15,6 @@ func main() {
 	}
 
 	cfg.l.Print(*cfg)
+
+	// render landing page
 }

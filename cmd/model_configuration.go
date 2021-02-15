@@ -9,6 +9,12 @@ import (
 	"github.com/pkg/errors"
 )
 
+type SiteInfo struct {
+	FaviconImagePath string
+	SiteLogoPath     string
+	RenderFolder     string
+}
+
 // HTMLPageTemplates Consolidates HTML page templates.
 // All templates shold share same containing folder and fields should be file names only.
 type HTMLPageTemplates struct {
@@ -25,8 +31,7 @@ type HTMLPageTemplates struct {
 
 // AppConfiguration Structure holding application configuration.
 type AppConfiguration struct {
-	RenderFolder string
-
+	SiteInfo
 	HTMLPageTemplates
 
 	l *log.LogInfo
@@ -39,7 +44,9 @@ func defaultConfiguration() (*AppConfiguration, error) {
 	}
 
 	result := &AppConfiguration{
-		RenderFolder: ".." + executableFolder + "/static",
+		SiteInfo: SiteInfo{
+			RenderFolder: ".." + executableFolder + "/static",
+		},
 		HTMLPageTemplates: HTMLPageTemplates{
 			ContainingFolder: ".." + executableFolder + "/static/assets",
 			PageShell:        "01_page_shell.gohtml",
@@ -78,7 +85,8 @@ func NewConfiguration(importFrom string, logLevel int) (*AppConfiguration, error
 	}
 
 	var result struct {
-		Render string
+		SiteInfo
+		HTMLPageTemplates
 	}
 
 	errUnmar := json.Unmarshal(data, &result)
@@ -87,7 +95,8 @@ func NewConfiguration(importFrom string, logLevel int) (*AppConfiguration, error
 	}
 
 	return &AppConfiguration{
-		RenderFolder: result.Render,
-		l:            log.New(logLevel, os.Stdout, true),
+		SiteInfo:          result.SiteInfo,
+		HTMLPageTemplates: result.HTMLPageTemplates,
+		l:                 log.New(logLevel, os.Stdout, true),
 	}, nil
 }
