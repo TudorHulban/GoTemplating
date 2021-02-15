@@ -1,4 +1,4 @@
-package main
+package config
 
 import (
 	"encoding/json"
@@ -34,7 +34,7 @@ type AppConfiguration struct {
 	SiteInfo
 	HTMLPageTemplates
 
-	l *log.LogInfo
+	L *log.LogInfo
 }
 
 func defaultConfiguration() (*AppConfiguration, error) {
@@ -57,7 +57,7 @@ func defaultConfiguration() (*AppConfiguration, error) {
 			Article:          "06_article.gohtml",
 			Footer:           "07_footer.gohtml",
 		},
-		l: log.New(log.DEBUG, os.Stdout, true),
+		L: log.New(log.DEBUG, os.Stdout, true),
 	}
 
 	return result, saveConfiguration(result)
@@ -97,6 +97,6 @@ func NewConfiguration(importFrom string, logLevel int) (*AppConfiguration, error
 	return &AppConfiguration{
 		SiteInfo:          result.SiteInfo,
 		HTMLPageTemplates: result.HTMLPageTemplates,
-		l:                 log.New(logLevel, os.Stdout, true),
+		L:                 log.New(logLevel, os.Stdout, true),
 	}, nil
 }

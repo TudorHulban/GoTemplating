@@ -1,4 +1,6 @@
 {
+ "FaviconImagePath": "",
+ "SiteLogoPath": "",
  "RenderFolder": "../home/tudi/ram/GoTemplating/cmd/static",
  "ContainingFolder": "../home/tudi/ram/GoTemplating/cmd/static/assets",
  "PageShell": "01_page_shell.gohtml",
@@ -7,5 +9,6 @@
  "Header": "04_header.gohtml",
  "Body": "05_body.gohtml",
  "Article": "06_article.gohtml",
- "Footer": "07_footer.gohtml"
+ "Footer": "07_footer.gohtml",
+ "L": {}
 }
