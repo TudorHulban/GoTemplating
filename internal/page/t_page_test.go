@@ -55,4 +55,11 @@ func TestPage(t *testing.T) {
 
 	fmt.Println("Page:")
 	fmt.Println(p.GetString())
+
+	info := SiteInfo{
+		Title:    "Title",
+		Subtitle: "Subtitle",
+	}
+
+	p.Render("/home/tudi/ram/xxxx", info)
 }

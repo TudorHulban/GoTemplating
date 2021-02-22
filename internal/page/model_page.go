@@ -1,11 +1,17 @@
 package page
 
 import (
+	"html/template"
 	"os"
 	"strings"
 
 	"github.com/TudorHulban/log"
 )
+
+type SiteInfo struct {
+	Title    string
+	Subtitle string
+}
 
 type Node struct {
 	Name string
@@ -66,4 +72,28 @@ func (p *Page) GetHTML() []string {
 
 func (p *Page) GetString() string {
 	return strings.Join(p.GetHTML(), "\n")
+}
+
+func (p *Page) Render(renderTo string, model SiteInfo) error {
+	funcs := template.FuncMap{"join": strings.Join}
+
+	t, errParse := template.New("").Funcs(funcs).Parse(p.GetString())
+	if errParse != nil {
+		p.l.Warn("errParse: ", errParse)
+		return errParse
+	}
+
+	f, errCreate := os.Create(renderTo)
+	if errCreate != nil {
+		p.l.Warn("errCreate: ", errCreate)
+		return errCreate
+	}
+	defer f.Close()
+
+	if errExec := t.Execute(f, model); errExec != nil {
+		p.l.Warn("errExec: ", errExec)
+		return errExec
+	}
+
+	return nil
 }
