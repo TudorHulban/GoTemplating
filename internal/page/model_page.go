@@ -2,9 +2,9 @@ package page
 
 import (
 	"os"
+	"strings"
 
 	"github.com/TudorHulban/log"
-	"github.com/pkg/errors"
 )
 
 type Node struct {
@@ -23,7 +23,7 @@ func NewPage(l *log.LogInfo) (*Page, error) {
 			Nodes: [][]*Node{},
 			l:     log.New(log.DEBUG, os.Stdout, true),
 		}
-		p.l.Debug("creating new page with new logger")
+		p.l.Debug("Creating new page with new logger.")
 
 		return &p, nil
 	}
@@ -36,15 +36,13 @@ func NewPage(l *log.LogInfo) (*Page, error) {
 
 // Add Method adds node.
 func (p *Page) Add(pos uint, n *Node) error {
-	if pos > uint(len(p.Nodes)) {
-		return errors.New("invalid position for node adding")
-	}
-
 	if pos <= uint(len(p.Nodes)) {
-		p.Nodes[pos] = append(p.Nodes[pos], n)
+		p.l.Infof("Adding node at level %d", pos)
+		p.Nodes[pos-1] = append(p.Nodes[pos-1], n)
 		return nil
 	}
 
+	p.l.Infof("Adding new level %d", pos)
 	p.Nodes = append(p.Nodes, []*Node{n})
 
 	return nil
@@ -64,4 +62,8 @@ func (p *Page) GetHTML() []string {
 	}
 
 	return result
+}
+
+func (p *Page) GetString() string {
+	return strings.Join(p.GetHTML(), "\n")
 }
