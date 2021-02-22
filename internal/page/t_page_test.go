@@ -28,12 +28,12 @@ func TestPage(t *testing.T) {
 	level := p.GetCurrentPos() + 1
 	require.Nil(t, p.Add(level, &Node{
 		Name: "2a",
-		HTML: "y",
+		HTML: "x",
 	}))
 
 	require.Nil(t, p.Add(level, &Node{
 		Name: "2b",
-		HTML: "z",
+		HTML: "y",
 	}))
 
 	require.Nil(t, p.Add(p.GetCurrentPos()+1, &Node{
@@ -61,5 +61,5 @@ func TestPage(t *testing.T) {
 		Subtitle: "Subtitle",
 	}
 
-	p.Render("/home/tudi/ram/xxxx", info)
+	require.Nil(t, p.Render("/home/tudi/ram/xxxx", info))
 }

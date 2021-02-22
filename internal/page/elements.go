@@ -14,9 +14,9 @@ const (
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="keywords" content="{{.SiteInfo.Subtitle}}">
-<meta name="description" content="{{.SiteInfo.Subtitle}}">
-<title>{{.SiteInfo.Title}}</title>
+<meta name="keywords" content="{{.Subtitle}}">
+<meta name="description" content="{{.Subtitle}}">
+<title>{{.Title}}</title>
 </head>
 `
 

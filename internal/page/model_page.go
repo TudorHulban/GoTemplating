@@ -75,9 +75,7 @@ func (p *Page) GetString() string {
 }
 
 func (p *Page) Render(renderTo string, model SiteInfo) error {
-	funcs := template.FuncMap{"join": strings.Join}
-
-	t, errParse := template.New("").Funcs(funcs).Parse(p.GetString())
+	t, errParse := template.New("").Parse(p.GetString())
 	if errParse != nil {
 		p.l.Warn("errParse: ", errParse)
 		return errParse
