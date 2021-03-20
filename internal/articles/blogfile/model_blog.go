@@ -12,32 +12,56 @@ type Blog struct {
 	Articles []articles.Article
 }
 
-func NewBlog(importFrom string) (*Blog, error) {
-	data, errRead := ioutil.ReadFile(importFrom)
-	if errRead != nil {
-		return nil, errors.WithMessagef(errRead, "issues when loading blog articles in file %s", importFrom)
+// NewBlog Constructor, takes a list of file names and imports them.
+// The file names should point to JSON files containing article data.
+func NewBlog(importFiles []string) (*Blog, error) {
+	result := Blog{
+		Articles: []articles{},
 	}
 
-	var state []articles.Article
+	for _, f := range importFiles {
+		a, errLoad := result.loadArticle(f)
+		if errLoad != nil {
+			return nil, errors.WithMessagef(errLoad, "could not load article from %s", f)
+		}
 
-	errUnmar := json.Unmarshal(data, &state)
-	if errUnmar != nil {
-		return nil, errors.WithMessage(errUnmar, "issues when unmarshaling blog data")
+		result.Articles = append(result.Articles, a)
 	}
 
-	if len(state) == 0 {
+	if len(result.Articles) == 0 {
 		return nil, errors.New("no articles to batch import")
 	}
 
-	for _, art := range state {
-		if errValid := articles.ValidateArticle(art); errValid != nil {
-			return nil, errors.WithMessagef(errValid, "could not validate article %s", art)
-		}
+	return result, nil
+}
+
+// loadArticle Loads article from file, performs article validation.
+func (b *Blog) loadArticle(loadFrom string) (articles.Article, error) {
+	data, errRead := ioutil.ReadFile(loadFrom)
+	if errRead != nil {
+		return nil, errors.WithMessagef(errRead, "issues when loading blog article in file %s", loadFrom)
 	}
 
-	return &Blog{
-		Articles: state,
-	}, nil
+	var result articles.Article
+
+	errUnmar := json.Unmarshal(data, &result)
+	if errUnmar != nil {
+		return nil, errors.WithMessage(errUnmar, "issues when unmarshaling blog article data")
+	}
+
+	if errValid := result.ValidateArticle(); errValid != nil {
+		return nil, errValid
+	}
+
+	return result, nil
+}
+
+func (b *Blog) SaveArticles(saveTo string) error {
+
+}
+
+func (b *Blog) saveArticle(a articles.Article) error {
+
 }
 
 // AddArticle Method to be used when adding articles as it offers input validation.
