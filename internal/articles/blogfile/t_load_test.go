@@ -18,3 +18,14 @@ func TestBlogArticles(t *testing.T) {
 	require.Nil(t, err)
 	require.Nil(t, b.SaveBlogArticles())
 }
+
+func TestBlogFiles(t *testing.T) {
+	files := make([]string, len(articles.DefaultArticles()))
+
+	for i, art := range articles.DefaultArticles() {
+		files[i] = art.SaveToFile
+	}
+
+	_, err := NewBlogFromFiles(files...)
+	require.Nil(t, err)
+}

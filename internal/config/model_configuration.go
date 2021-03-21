@@ -37,32 +37,6 @@ type AppConfiguration struct {
 	L *log.LogInfo
 }
 
-func defaultConfiguration() (*AppConfiguration, error) {
-	executableFolder, err := os.Getwd()
-	if err != nil {
-		return nil, errors.WithMessage(err, "issues when creating default configuration")
-	}
-
-	result := &AppConfiguration{
-		SiteInfo: SiteInfo{
-			RenderFolder: ".." + executableFolder + "/static",
-		},
-		HTMLPageTemplates: HTMLPageTemplates{
-			ContainingFolder: ".." + executableFolder + "/static/assets",
-			PageShell:        "01_page_shell.gohtml",
-			Head:             "02_head.gohtml",
-			Meta:             "03_meta.gohtml",
-			Header:           "04_header.gohtml",
-			Body:             "05_body.gohtml",
-			Article:          "06_article.gohtml",
-			Footer:           "07_footer.gohtml",
-		},
-		L: log.New(log.DEBUG, os.Stdout, true),
-	}
-
-	return result, saveConfiguration(result)
-}
-
 // saveConfiguration Helper saves configuration if one does not have a file for configuring the app.
 // TODO: add file to save into.
 func saveConfiguration(cfg *AppConfiguration) error {
@@ -100,4 +74,30 @@ func NewConfiguration(importFrom string, logLevel int) (*AppConfiguration, error
 		HTMLPageTemplates: result.HTMLPageTemplates,
 		L:                 log.New(logLevel, os.Stdout, true),
 	}, nil
+}
+
+func defaultConfiguration() (*AppConfiguration, error) {
+	executableFolder, err := os.Getwd()
+	if err != nil {
+		return nil, errors.WithMessage(err, "issues when creating default configuration")
+	}
+
+	result := &AppConfiguration{
+		SiteInfo: SiteInfo{
+			RenderFolder: ".." + executableFolder + "/static",
+		},
+		HTMLPageTemplates: HTMLPageTemplates{
+			ContainingFolder: ".." + executableFolder + "/static/assets",
+			PageShell:        "01_page_shell.gohtml",
+			Head:             "02_head.gohtml",
+			Meta:             "03_meta.gohtml",
+			Header:           "04_header.gohtml",
+			Body:             "05_body.gohtml",
+			Article:          "06_article.gohtml",
+			Footer:           "07_footer.gohtml",
+		},
+		L: log.New(log.DEBUG, os.Stdout, true),
+	}
+
+	return result, saveConfiguration(result)
 }

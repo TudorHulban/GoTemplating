@@ -34,7 +34,7 @@ func NewBlogFromArticles(art ...articles.Article) (*Blog, error) {
 
 // NewBlog Constructor, takes a list of file names and imports them.
 // The file names should point to JSON files containing article data.
-func NewBlogFromFiles(importFiles []string) (*Blog, error) {
+func NewBlogFromFiles(importFiles ...string) (*Blog, error) {
 	result := Blog{
 		Data: []articles.Article{},
 	}
