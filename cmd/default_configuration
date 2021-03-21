@@ -1,8 +1,8 @@
 {
  "FaviconImagePath": "",
  "SiteLogoPath": "",
- "RenderFolder": "../home/tudi/ram/GoTemplating/cmd/static",
- "ContainingFolder": "../home/tudi/ram/GoTemplating/cmd/static/assets",
+ "RenderFolder": "../mnt/tmpfs.ramdisk/GoTemplating/cmd/static",
+ "ContainingFolder": "../mnt/tmpfs.ramdisk/GoTemplating/cmd/static/assets",
  "PageShell": "01_page_shell.gohtml",
  "Head": "02_head.gohtml",
  "Meta": "03_meta.gohtml",

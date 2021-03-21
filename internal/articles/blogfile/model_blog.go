@@ -20,7 +20,7 @@ func NewBlogFromArticles(art ...articles.Article) (*Blog, error) {
 	}
 
 	if len(art) == 0 {
-		return &result, nil
+		return nil, errors.New("no articles provided")
 	}
 
 	for _, a := range art {
@@ -37,6 +37,10 @@ func NewBlogFromArticles(art ...articles.Article) (*Blog, error) {
 func NewBlogFromFiles(importFiles ...string) (*Blog, error) {
 	result := Blog{
 		Data: []articles.Article{},
+	}
+
+	if len(importFiles) == 0 {
+		return nil, errors.New("no import files provided")
 	}
 
 	for _, f := range importFiles {

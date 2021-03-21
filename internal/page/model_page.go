@@ -29,8 +29,8 @@ func NewPage(l *log.LogInfo) (*Page, error) {
 			Nodes: [][]*Node{},
 			l:     log.New(log.DEBUG, os.Stdout, true),
 		}
-		p.l.Debug("Creating new page with new logger.")
 
+		p.l.Debug("Creating new page with new logger.")
 		return &p, nil
 	}
 
@@ -44,6 +44,7 @@ func NewPage(l *log.LogInfo) (*Page, error) {
 func (p *Page) Add(pos uint, n *Node) error {
 	if pos <= uint(len(p.Nodes)) {
 		p.l.Infof("Adding node at level %d", pos)
+
 		p.Nodes[pos-1] = append(p.Nodes[pos-1], n)
 		return nil
 	}
