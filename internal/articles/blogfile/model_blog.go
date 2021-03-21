@@ -8,13 +8,33 @@ import (
 	"github.com/pkg/errors"
 )
 
+var _ articles.IBlog = (*Blog)(nil)
+
 type Blog struct {
 	Data []articles.Article
 }
 
+func NewBlogFromArticles(art ...articles.Article) (*Blog, error) {
+	result := Blog{
+		Data: []articles.Article{},
+	}
+
+	if len(art) == 0 {
+		return &result, nil
+	}
+
+	for _, a := range art {
+		if err := result.AddArticle(a); err != nil {
+			return nil, err
+		}
+	}
+
+	return &result, nil
+}
+
 // NewBlog Constructor, takes a list of file names and imports them.
 // The file names should point to JSON files containing article data.
-func NewBlog(importFiles []string) (*Blog, error) {
+func NewBlogFromFiles(importFiles []string) (*Blog, error) {
 	result := Blog{
 		Data: []articles.Article{},
 	}
@@ -56,29 +76,10 @@ func (b *Blog) loadArticle(loadFrom string) (*articles.Article, error) {
 	return &result, nil
 }
 
-func (b *Blog) SaveArticles(saveTo string) error {
-	for _, a := range b.Data {
-		if err := b.saveArticle(a); err != nil {
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (b *Blog) saveArticle(a articles.Article) error {
-	byteArticle, errMar := json.Marshal(a)
-	if errMar != nil {
-		return errMar
-	}
-
-	return ioutil.WriteFile(a.SaveToFile, byteArticle, 0644)
-}
-
 // AddArticle Method to be used when adding articles as it offers input validation.
 func (b *Blog) AddArticle(a articles.Article) error {
 	if errValid := articles.Article.ValidateArticle(a); errValid != nil {
-		return errors.WithMessagef(errValid, "could not validate article %s", a)
+		return errors.WithMessagef(errValid, "could not validate article %v", a)
 	}
 
 	b.Data = append(b.Data, a)
@@ -99,4 +100,23 @@ func (b *Blog) GetArticle(code string) (*articles.Article, error) {
 	}
 
 	return nil, errors.WithMessage(nil, "no articles found")
+}
+
+func (b *Blog) SaveBlogArticles() error {
+	for _, a := range b.Data {
+		if err := b.saveArticle(a); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (b *Blog) saveArticle(a articles.Article) error {
+	byteArticle, errMar := json.MarshalIndent(a, "", " ")
+	if errMar != nil {
+		return errMar
+	}
+
+	return ioutil.WriteFile(a.SaveToFile, byteArticle, 0644)
 }
