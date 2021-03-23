@@ -5,7 +5,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/TudorHulban/log"
+	"github.com/rs/zerolog"
 )
 
 type SiteInfo struct {
@@ -20,20 +20,10 @@ type Node struct {
 
 type Page struct {
 	Nodes [][]*Node
-	l     *log.LogInfo
+	l     zerolog.Logger
 }
 
-func NewPage(l *log.LogInfo) (*Page, error) {
-	if l == nil {
-		p := Page{
-			Nodes: [][]*Node{},
-			l:     log.New(log.DEBUG, os.Stdout, true),
-		}
-
-		p.l.Debug("Creating new page with new logger.")
-		return &p, nil
-	}
-
+func NewPage(l zerolog.Logger) (*Page, error) {
 	return &Page{
 		Nodes: [][]*Node{},
 		l:     l,
@@ -43,13 +33,13 @@ func NewPage(l *log.LogInfo) (*Page, error) {
 // Add Method adds node.
 func (p *Page) Add(pos uint, n *Node) error {
 	if pos <= uint(len(p.Nodes)) {
-		p.l.Infof("Adding node at level %d", pos)
+		p.l.Info().Msgf("Adding node at level %d", pos)
 
 		p.Nodes[pos-1] = append(p.Nodes[pos-1], n)
 		return nil
 	}
 
-	p.l.Infof("Adding new level %d", pos)
+	p.l.Info().Msgf("Adding new level %d", pos)
 	p.Nodes = append(p.Nodes, []*Node{n})
 
 	return nil
@@ -78,19 +68,19 @@ func (p *Page) GetString() string {
 func (p *Page) Render(renderTo string, model SiteInfo) error {
 	t, errParse := template.New("").Parse(p.GetString())
 	if errParse != nil {
-		p.l.Warn("errParse: ", errParse)
+		p.l.Warn().Str("errParse", errParse.Error()).Msg("")
 		return errParse
 	}
 
 	f, errCreate := os.Create(renderTo)
 	if errCreate != nil {
-		p.l.Warn("errCreate: ", errCreate)
+		p.l.Warn().Msgf("error creating file into which to render: %s", errCreate.Error())
 		return errCreate
 	}
 	defer f.Close()
 
 	if errExec := t.Execute(f, model); errExec != nil {
-		p.l.Warn("errExec: ", errExec)
+		p.l.Warn().Msgf("error parsing template: %s", errExec.Error())
 		return errExec
 	}
 

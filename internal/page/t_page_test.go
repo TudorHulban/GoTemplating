@@ -2,13 +2,16 @@ package page
 
 import (
 	"fmt"
+	"os"
 	"testing"
 
+	"github.com/rs/zerolog"
 	"github.com/stretchr/testify/require"
 )
 
 func TestPage(t *testing.T) {
-	p, _ := NewPage(nil)
+	l := zerolog.New(os.Stderr).With().Timestamp().Logger().Level(zerolog.DebugLevel)
+	p, _ := NewPage(l)
 
 	require.Nil(t, p.Add(p.GetCurrentPos()+1, &Node{
 		Name: "Page Start",
