@@ -1,14 +1,15 @@
-package articles
+package article
 
 import (
 	"time"
 )
 
+// DefaultArticles Helper to provide test articles to blog implementations.
 func DefaultArticles() []Article {
 	a1, a2 := "ART01", "ART02"
 
 	return []Article{
-		Article{
+		{
 			IsVisible:   true,
 			Created:     uint64(time.Now().Unix()),
 			LastUpdated: 0,
@@ -18,7 +19,7 @@ func DefaultArticles() []Article {
 			Author:      "Default Author",
 			Content:     "xxxxxxxxxxxxxxxxxxx",
 		},
-		Article{
+		{
 			IsVisible:   true,
 			Created:     uint64(time.Now().Unix()),
 			LastUpdated: 0,

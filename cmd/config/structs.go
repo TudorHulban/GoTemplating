@@ -1,8 +1,8 @@
 package config
 
 import (
-	"github.com/TudorHulban/GoTemplating/internal/articles"
-	"github.com/TudorHulban/GoTemplating/internal/products"
+	"github.com/TudorHulban/GoTemplating/internal/article"
+	products "github.com/TudorHulban/GoTemplating/internal/ecommerce"
 	"github.com/rs/zerolog"
 )
 
@@ -39,7 +39,7 @@ type App struct {
 	SiteInfo
 
 	Templates         map[TemplateName]TemplateContents
-	BlogArticles      []articles.Article
+	BlogArticles      []article.Article
 	ECommerceProducts []products.Product
 	L                 zerolog.Logger
 }

@@ -9,6 +9,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+// TODO: move to table driven test.
 func TestPage(t *testing.T) {
 	l := zerolog.New(os.Stderr).With().Timestamp().Logger().Level(zerolog.DebugLevel)
 	p, _ := NewPage(l)

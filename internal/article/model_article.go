@@ -1,12 +1,12 @@
-package articles
+package article
 
 // Article model concentrates state and methods for interacting with an article.
-// Article represents blog entry to help conversion.
+// Article represents blog entry to help conversion and is common to all blog implementations.
 type Article struct {
 	IsVisible                 bool     `json:"visible"`
 	Created                   uint64   `json:"created"` // UNIX time seconds
 	LastUpdated               uint64   `json:"updated"` // UNIX time seconds
-	SaveToFile                string   `json:"file"`
+	SaveToFile                string   `json:"file"`    // particular to blog file
 	CODE                      string   `json:"code"`
 	Name                      string   `json:"name"`
 	Author                    string   `json:"author"`

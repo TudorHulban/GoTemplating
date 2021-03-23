@@ -5,6 +5,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/TudorHulban/GoTemplating/internal/article"
 	"github.com/rs/zerolog"
 )
 
@@ -49,6 +50,7 @@ func (p *Page) GetCurrentPos() uint {
 	return uint(len(p.Nodes))
 }
 
+// GetHTML Method returns page HTML as slice of string.
 func (p *Page) GetHTML() []string {
 	var result []string
 
@@ -61,6 +63,7 @@ func (p *Page) GetHTML() []string {
 	return result
 }
 
+// GetHTML Method returns page HTML as string.
 func (p *Page) GetString() string {
 	return strings.Join(p.GetHTML(), "\n")
 }
@@ -84,5 +87,9 @@ func (p *Page) Render(renderTo string, model SiteInfo) error {
 		return errExec
 	}
 
+	return nil
+}
+
+func (p *Page) RenderArticle(a article.Article) error {
 	return nil
 }

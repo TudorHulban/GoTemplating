@@ -4,19 +4,25 @@ import (
 	"encoding/json"
 	"io/ioutil"
 
-	"github.com/TudorHulban/GoTemplating/internal/articles"
+	"github.com/rs/zerolog"
+
+	"github.com/TudorHulban/GoTemplating/internal/article"
+	"github.com/TudorHulban/GoTemplating/internal/blog"
+	"github.com/TudorHulban/GoTemplating/internal/page"
 	"github.com/pkg/errors"
 )
 
-var _ articles.IBlog = (*Blog)(nil)
+var _ blog.IBlog = (*Blog)(nil)
 
 type Blog struct {
-	Data []articles.Article
+	Data []article.Article
+	l    zerolog.Logger
 }
 
-func NewBlogFromArticles(art ...articles.Article) (*Blog, error) {
+func NewBlogFromArticles(l zerolog.Logger, art ...article.Article) (*Blog, error) {
 	result := Blog{
-		Data: []articles.Article{},
+		Data: []article.Article{},
+		l:    l,
 	}
 
 	if len(art) == 0 {
@@ -34,9 +40,10 @@ func NewBlogFromArticles(art ...articles.Article) (*Blog, error) {
 
 // NewBlog Constructor, takes a list of file names and imports them.
 // The file names should point to JSON files containing article data.
-func NewBlogFromFiles(importFiles ...string) (*Blog, error) {
+func NewBlogFromFiles(l zerolog.Logger, importFiles ...string) (*Blog, error) {
 	result := Blog{
-		Data: []articles.Article{},
+		Data: []article.Article{},
+		l:    l,
 	}
 
 	if len(importFiles) == 0 {
@@ -60,13 +67,13 @@ func NewBlogFromFiles(importFiles ...string) (*Blog, error) {
 }
 
 // loadArticle Loads article from file, performs article validation.
-func (b *Blog) loadArticle(loadFrom string) (*articles.Article, error) {
+func (b *Blog) loadArticle(loadFrom string) (*article.Article, error) {
 	data, errRead := ioutil.ReadFile(loadFrom)
 	if errRead != nil {
 		return nil, errors.WithMessagef(errRead, "issues when loading blog article in file %s", loadFrom)
 	}
 
-	var result articles.Article
+	var result article.Article
 
 	errUnmar := json.Unmarshal(data, &result)
 	if errUnmar != nil {
@@ -81,8 +88,8 @@ func (b *Blog) loadArticle(loadFrom string) (*articles.Article, error) {
 }
 
 // AddArticle Method to be used when adding articles as it offers input validation.
-func (b *Blog) AddArticle(a articles.Article) error {
-	if errValid := articles.Article.ValidateArticle(a); errValid != nil {
+func (b *Blog) AddArticle(a article.Article) error {
+	if errValid := article.Article.ValidateArticle(a); errValid != nil {
 		return errors.WithMessagef(errValid, "could not validate article %v", a)
 	}
 
@@ -91,12 +98,12 @@ func (b *Blog) AddArticle(a articles.Article) error {
 }
 
 // GetArticles Method satisfies articles interface.
-func (b *Blog) GetArticles() ([]articles.Article, error) {
+func (b *Blog) GetArticles() ([]article.Article, error) {
 	return b.Data, nil
 }
 
 // GetArticle Method satisfies articles interface.
-func (b *Blog) GetArticle(code string) (*articles.Article, error) {
+func (b *Blog) GetArticle(code string) (*article.Article, error) {
 	for _, v := range b.Data {
 		if code == v.CODE {
 			return &v, nil
@@ -104,6 +111,11 @@ func (b *Blog) GetArticle(code string) (*articles.Article, error) {
 	}
 
 	return nil, errors.WithMessage(nil, "no articles found")
+}
+
+// RenderArticles Main method of blog. Part of exposed interface.
+func (b *Blog) RenderArticles(p *page.Page) error {
+	return nil
 }
 
 func (b *Blog) SaveBlogArticles() error {
@@ -116,7 +128,7 @@ func (b *Blog) SaveBlogArticles() error {
 	return nil
 }
 
-func (b *Blog) saveArticle(a articles.Article) error {
+func (b *Blog) saveArticle(a article.Article) error {
 	byteArticle, errMar := json.MarshalIndent(a, "", " ")
 	if errMar != nil {
 		return errMar
