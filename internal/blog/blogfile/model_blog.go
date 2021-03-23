@@ -19,7 +19,7 @@ type Blog struct {
 	l    zerolog.Logger
 }
 
-func NewBlogFromArticles(l zerolog.Logger, art ...article.Article) (*Blog, error) {
+func NewBlogFromArticles(l zerolog.Logger, art ...article.Article) (blog.IBlog, error) {
 	result := Blog{
 		Data: []article.Article{},
 		l:    l,
@@ -40,7 +40,7 @@ func NewBlogFromArticles(l zerolog.Logger, art ...article.Article) (*Blog, error
 
 // NewBlog Constructor, takes a list of file names and imports them.
 // The file names should point to JSON files containing article data.
-func NewBlogFromFiles(l zerolog.Logger, importFiles ...string) (*Blog, error) {
+func NewBlogFromFiles(l zerolog.Logger, importFiles ...string) (blog.IBlog, error) {
 	result := Blog{
 		Data: []article.Article{},
 		l:    l,

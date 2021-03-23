@@ -46,7 +46,7 @@ func saveConfiguration(cfg *AppConfiguration) error {
 	}
 
 	if cfg.SaveToConfigFile == "" {
-		return ioutil.WriteFile(defaultConfigurationFileName, file, 0644)
+		return ioutil.WriteFile(defaultAppConfigurationFileName, file, 0644)
 	}
 
 	return ioutil.WriteFile(cfg.SaveToConfigFile, file, 0644)

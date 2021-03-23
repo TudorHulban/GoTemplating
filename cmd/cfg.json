@@ -1,14 +1,16 @@
 {
+ "AppConfigFile": "cfg.json",
+ "SaveToConfigFile": "",
+ "L": {},
  "FaviconImagePath": "",
  "SiteLogoPath": "",
- "RenderFolder": "../mnt/tmpfs.ramdisk/GoTemplating/cmd/static",
- "ContainingFolder": "../mnt/tmpfs.ramdisk/GoTemplating/cmd/static/assets",
+ "RenderArticlesFolder": "/home/tudi/ram/GoTemplating/cmd/renderedarticles",
+ "ContainingFolder": "../home/tudi/ram/GoTemplating/cmd/static/assets",
  "PageShell": "01_page_shell.gohtml",
  "Head": "02_head.gohtml",
  "Meta": "03_meta.gohtml",
  "Header": "04_header.gohtml",
  "Body": "05_body.gohtml",
  "Article": "06_article.gohtml",
- "Footer": "07_footer.gohtml",
- "L": {}
+ "Footer": "07_footer.gohtml"
 }

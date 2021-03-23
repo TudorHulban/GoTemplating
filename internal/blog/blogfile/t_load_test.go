@@ -20,7 +20,8 @@ var l = zerolog.New(os.Stderr).With().Timestamp().Logger().Level(zerolog.DebugLe
 func TestBlogArticles(t *testing.T) {
 	b, err := NewBlogFromArticles(l, article.DefaultArticles()...)
 	require.Nil(t, err)
-	require.Nil(t, b.saveBlogArticles())
+
+	require.Nil(t, b.(*Blog).saveBlogArticles())
 	require.Nil(t, b.RenderArticles())
 }
 

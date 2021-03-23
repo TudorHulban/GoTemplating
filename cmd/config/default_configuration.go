@@ -15,10 +15,14 @@ func defaultConfiguration(options ...Option) (*AppConfiguration, error) {
 		return nil, errors.WithMessage(err, "issues when creating default configuration")
 	}
 
+	renderToFolder := executableFolder + defaultRenderArticlesFolder
+
 	result := &AppConfiguration{
 		SiteInfo: SiteInfo{
-			RenderFolder: ".." + executableFolder + "/static",
+			RenderArticlesFolder: renderToFolder,
 		},
+
+		AppConfigFile: defaultAppConfigurationFileName,
 
 		HTMLPageTemplates: HTMLPageTemplates{
 			ContainingFolder: ".." + executableFolder + "/static/assets",
@@ -31,7 +35,16 @@ func defaultConfiguration(options ...Option) (*AppConfiguration, error) {
 			Footer:           "07_footer.gohtml",
 		},
 
-		L: zerolog.New(os.Stderr).With().Timestamp().Logger().Level(zerolog.DebugLevel),
+		L: zerolog.New(os.Stderr).With().Caller().Timestamp().Logger().Level(zerolog.DebugLevel),
+	}
+
+	// moved below initialization in order to use the logger
+	result.L.Print(renderToFolder)
+
+	if _, err := os.Stat(renderToFolder); err != nil {
+		if os.IsNotExist(err) {
+			os.Mkdir(renderToFolder, os.ModePerm)
+		}
 	}
 
 	return result, saveConfiguration(result)

@@ -1,3 +1,8 @@
 package config
 
-const defaultConfigurationFileName = "cfg.json"
+const (
+	defaultAppConfigurationFileName = "cfg.json"
+	defaultArticlesFolder           = "/articles"
+	defaultRenderArticlesFolder     = "/renderedarticles"
+	ExtensionArticleFile            = ".art"
+)

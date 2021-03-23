@@ -7,9 +7,9 @@ import (
 )
 
 type SiteInfo struct {
-	FaviconImagePath string
-	SiteLogoPath     string
-	RenderFolder     string
+	FaviconImagePath     string
+	SiteLogoPath         string
+	RenderArticlesFolder string
 }
 
 // HTMLPageTemplates Consolidates HTML page templates.
@@ -28,18 +28,18 @@ type HTMLPageTemplates struct {
 
 // AppConfiguration Structure holding application configuration.
 type AppConfiguration struct {
-	SiteInfo
-	HTMLPageTemplates
-
+	AppConfigFile    string
 	SaveToConfigFile string
 	L                zerolog.Logger
+
+	SiteInfo
+	HTMLPageTemplates
 }
 
 type App struct {
-	SiteInfo
+	AppConfiguration
 
 	Templates         map[TemplateName]TemplateContents
 	BlogArticles      []article.Article
 	ECommerceProducts []products.Product
-	L                 zerolog.Logger
 }
