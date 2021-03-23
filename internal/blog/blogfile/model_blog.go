@@ -30,7 +30,7 @@ func NewBlogFromArticles(l zerolog.Logger, art ...article.Article) (*Blog, error
 	}
 
 	for _, a := range art {
-		if err := result.AddArticle(a); err != nil {
+		if err := result.addArticle(a); err != nil {
 			return nil, err
 		}
 	}
@@ -88,7 +88,7 @@ func (b *Blog) loadArticle(loadFrom string) (*article.Article, error) {
 }
 
 // AddArticle Method to be used when adding articles as it offers input validation.
-func (b *Blog) AddArticle(a article.Article) error {
+func (b *Blog) addArticle(a article.Article) error {
 	if errValid := article.Article.ValidateArticle(a); errValid != nil {
 		return errors.WithMessagef(errValid, "could not validate article %v", a)
 	}
@@ -114,11 +114,22 @@ func (b *Blog) GetArticle(code string) (*article.Article, error) {
 }
 
 // RenderArticles Main method of blog. Part of exposed interface.
-func (b *Blog) RenderArticles(p *page.Page) error {
+func (b *Blog) RenderArticles() error {
+	p, errNew := page.NewPage(b.l, page.PageArticle())
+	if errNew != nil {
+		return errors.WithMessage(errNew, "error creating article page")
+	}
+
+	for _, art := range b.Data {
+		if errRender := p.RenderArticle(art); errRender != nil {
+			return errors.WithMessagef(errRender, "error rendering article %s", art.CODE)
+		}
+	}
+
 	return nil
 }
 
-func (b *Blog) SaveBlogArticles() error {
+func (b *Blog) saveBlogArticles() error {
 	for _, a := range b.Data {
 		if err := b.saveArticle(a); err != nil {
 			return err

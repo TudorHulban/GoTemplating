@@ -24,11 +24,21 @@ type Page struct {
 	l     zerolog.Logger
 }
 
-func NewPage(l zerolog.Logger) (*Page, error) {
-	return &Page{
+type Option func(p *Page) error
+
+func NewPage(l zerolog.Logger, options ...Option) (*Page, error) {
+	result := &Page{
 		Nodes: [][]*Node{},
 		l:     l,
-	}, nil
+	}
+
+	for _, opt := range options {
+		if err := opt(result); err != nil {
+			return nil, err
+		}
+	}
+
+	return result, nil
 }
 
 // Add Method adds node.
@@ -68,28 +78,31 @@ func (p *Page) GetString() string {
 	return strings.Join(p.GetHTML(), "\n")
 }
 
-func (p *Page) Render(renderTo string, model SiteInfo) error {
+func (p *Page) RenderArticle(a article.Article) error {
 	t, errParse := template.New("").Parse(p.GetString())
 	if errParse != nil {
 		p.l.Warn().Str("errParse", errParse.Error()).Msg("")
 		return errParse
 	}
 
-	f, errCreate := os.Create(renderTo)
+	f, errCreate := os.Create(a.CODE + ".html")
 	if errCreate != nil {
 		p.l.Warn().Msgf("error creating file into which to render: %s", errCreate.Error())
 		return errCreate
 	}
 	defer f.Close()
 
+	// model contains site and article information
+	model := struct {
+		string
+	}{
+		"x",
+	}
+
 	if errExec := t.Execute(f, model); errExec != nil {
 		p.l.Warn().Msgf("error parsing template: %s", errExec.Error())
 		return errExec
 	}
 
-	return nil
-}
-
-func (p *Page) RenderArticle(a article.Article) error {
 	return nil
 }

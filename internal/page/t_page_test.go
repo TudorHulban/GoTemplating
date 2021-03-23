@@ -59,11 +59,4 @@ func TestPage(t *testing.T) {
 
 	fmt.Println("Page:")
 	fmt.Println(p.GetString())
-
-	info := SiteInfo{
-		Title:    "Title",
-		Subtitle: "Subtitle",
-	}
-
-	require.Nil(t, p.Render("/home/tudi/ram/xxxx", info))
 }

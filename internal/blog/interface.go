@@ -1,11 +1,9 @@
 package blog
 
-import "github.com/TudorHulban/GoTemplating/internal/page"
-
 // IArticles interface added for different implementations / types of persistance.
 // Blog types should save automatically articles to persistance when there is a change.
 type IBlog interface {
-	RenderArticles(p *page.Page) error
+	RenderArticles() error
 	//RenderArticlesSummarization() error
 
 	//GetArticles() ([]Article, error)
