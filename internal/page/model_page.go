@@ -1,6 +1,7 @@
 package page
 
 import (
+	"errors"
 	"html/template"
 	"os"
 	"strings"
@@ -79,13 +80,22 @@ func (p *Page) GetString() string {
 }
 
 func (p *Page) RenderArticle(a article.Article, renderToFolder string) error {
+	renderToFolder = strings.Trim(renderToFolder, " ")
+
+	if len(renderToFolder) == 0 {
+		return errors.New("folder where to render articles missing")
+	}
+
 	t, errParse := template.New("").Parse(p.GetString())
 	if errParse != nil {
 		p.l.Warn("errParse", errParse)
 		return errParse
 	}
 
-	f, errCreate := os.Create(renderToFolder + "/" + a.CODE + ".html")
+	toPath := renderToFolder + "/" + a.CODE + ".html"
+	p.l.Debugf("article to be rendered to: %s", toPath)
+
+	f, errCreate := os.Create(toPath)
 	if errCreate != nil {
 		p.l.Warnf("error creating file into which to render: %s", errCreate.Error())
 		return errCreate

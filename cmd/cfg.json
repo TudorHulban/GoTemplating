@@ -5,7 +5,7 @@
  "FaviconImagePath": "",
  "SiteLogoPath": "",
  "ArticlesRAWFolder": "articles",
- "ArticlesRenderToFolder": "/mnt/tmpfs.ramdisk/GoTemplating/cmdrenderedarticles",
+ "ArticlesRenderToFolder": "/mnt/tmpfs.ramdisk/GoTemplating/cmd/renderedarticles",
  "ContainingFolder": "../mnt/tmpfs.ramdisk/GoTemplating/cmd/static/assets",
  "PageShell": "01_page_shell.gohtml",
  "Head": "02_head.gohtml",

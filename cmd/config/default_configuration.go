@@ -15,7 +15,13 @@ func defaultConfiguration(options ...Option) (*AppConfiguration, error) {
 		return nil, errors.WithMessage(err, "issues when creating default configuration")
 	}
 
-	renderToFolder := executableFolder + defaultArticlesRenderedFolder
+	var renderToFolder string
+
+	if defaultArticlesRenderedFolder[:1] != "/" {
+		renderToFolder = executableFolder + "/" + defaultArticlesRenderedFolder
+	} else {
+		renderToFolder = executableFolder + defaultArticlesRenderedFolder
+	}
 
 	result := &AppConfiguration{
 		SiteInfo: SiteInfo{

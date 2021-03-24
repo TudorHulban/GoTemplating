@@ -16,19 +16,27 @@ import (
 var _ blog.IBlog = (*Blog)(nil)
 
 type Blog struct {
-	Data []article.Article
-	l    *log.Logger
+	Data                   []article.Article
+	articlesRenderToFolder string
+	l                      *log.Logger
 }
 
 func NewBlogFromArticles(cfg *config.AppConfiguration, art ...article.Article) (blog.IBlog, error) {
-	result := Blog{
-		Data: []article.Article{},
-		l:    cfg.L,
-	}
-
 	if len(art) == 0 {
 		return nil, errors.New("no articles provided")
 	}
+
+	if cfg.ArticlesRenderToFolder == "" {
+		return nil, errors.New("folder where to render articles missing")
+	}
+
+	result := Blog{
+		Data:                   []article.Article{},
+		articlesRenderToFolder: cfg.ArticlesRenderToFolder,
+		l:                      cfg.L,
+	}
+
+	cfg.L.Debug("ArticlesRenderToFolder:", result.articlesRenderToFolder)
 
 	for _, a := range art {
 		if err := result.addArticle(a); err != nil {
@@ -42,13 +50,18 @@ func NewBlogFromArticles(cfg *config.AppConfiguration, art ...article.Article) (
 // NewBlog Constructor, takes a list of file names and imports them.
 // The file names should point to JSON files containing article data.
 func NewBlogFromFiles(cfg *config.AppConfiguration, importFiles ...string) (blog.IBlog, error) {
-	result := Blog{
-		Data: []article.Article{},
-		l:    cfg.L,
-	}
-
 	if len(importFiles) == 0 {
 		return nil, errors.New("no import files provided")
+	}
+
+	if cfg.ArticlesRenderToFolder == "" {
+		return nil, errors.New("folder where to render articles missing")
+	}
+
+	result := Blog{
+		Data:                   []article.Article{},
+		articlesRenderToFolder: cfg.ArticlesRenderToFolder,
+		l:                      cfg.L,
 	}
 
 	for _, f := range importFiles {
@@ -122,7 +135,7 @@ func (b *Blog) RenderArticles() error {
 	}
 
 	for _, art := range b.Data {
-		if errRender := p.RenderArticle(art); errRender != nil {
+		if errRender := p.RenderArticle(art, b.articlesRenderToFolder); errRender != nil {
 			return errors.WithMessagef(errRender, "error rendering article %s", art.CODE)
 		}
 	}

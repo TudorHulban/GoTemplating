@@ -29,7 +29,7 @@ func main() {
 		os.Exit(3)
 	}
 
-	blog, errBlog := blogfile.NewBlogFromFiles(cfg.L, articles...)
+	blog, errBlog := blogfile.NewBlogFromFiles(cfg, articles...)
 	if errBlog != nil {
 		cfg.L.Print(errBlog)
 		os.Exit(4)
