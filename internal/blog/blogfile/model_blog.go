@@ -6,6 +6,7 @@ import (
 
 	"github.com/TudorHulban/log"
 
+	"github.com/TudorHulban/GoTemplating/cmd/config"
 	"github.com/TudorHulban/GoTemplating/internal/article"
 	"github.com/TudorHulban/GoTemplating/internal/blog"
 	"github.com/TudorHulban/GoTemplating/internal/page"
@@ -19,10 +20,10 @@ type Blog struct {
 	l    *log.Logger
 }
 
-func NewBlogFromArticles(l *log.Logger, art ...article.Article) (blog.IBlog, error) {
+func NewBlogFromArticles(cfg *config.AppConfiguration, art ...article.Article) (blog.IBlog, error) {
 	result := Blog{
 		Data: []article.Article{},
-		l:    l,
+		l:    cfg.L,
 	}
 
 	if len(art) == 0 {
@@ -40,10 +41,10 @@ func NewBlogFromArticles(l *log.Logger, art ...article.Article) (blog.IBlog, err
 
 // NewBlog Constructor, takes a list of file names and imports them.
 // The file names should point to JSON files containing article data.
-func NewBlogFromFiles(l *log.Logger, importFiles ...string) (blog.IBlog, error) {
+func NewBlogFromFiles(cfg *config.AppConfiguration, importFiles ...string) (blog.IBlog, error) {
 	result := Blog{
 		Data: []article.Article{},
-		l:    l,
+		l:    cfg.L,
 	}
 
 	if len(importFiles) == 0 {

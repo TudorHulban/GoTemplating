@@ -78,28 +78,24 @@ func (p *Page) GetString() string {
 	return strings.Join(p.GetHTML(), "\n")
 }
 
-func (p *Page) RenderArticle(a article.Article) error {
+func (p *Page) RenderArticle(a article.Article, renderToFolder string) error {
 	t, errParse := template.New("").Parse(p.GetString())
 	if errParse != nil {
 		p.l.Warn("errParse", errParse)
 		return errParse
 	}
 
-	f, errCreate := os.Create(a.CODE + ".html")
+	f, errCreate := os.Create(renderToFolder + "/" + a.CODE + ".html")
 	if errCreate != nil {
 		p.l.Warnf("error creating file into which to render: %s", errCreate.Error())
 		return errCreate
 	}
 	defer f.Close()
 
-	// model contains site and article information
-	model := struct {
-		string
-	}{
-		"x",
-	}
+	p.l.Debug("page HTML:")
+	p.l.Debug(p.GetString())
 
-	if errExec := t.Execute(f, model); errExec != nil {
+	if errExec := t.Execute(f, a); errExec != nil {
 		p.l.Warnf("error parsing template: %s", errExec.Error())
 		return errExec
 	}
