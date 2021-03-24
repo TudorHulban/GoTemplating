@@ -3,7 +3,7 @@ package config
 import (
 	"github.com/TudorHulban/GoTemplating/internal/article"
 	products "github.com/TudorHulban/GoTemplating/internal/ecommerce"
-	"github.com/rs/zerolog"
+	"github.com/TudorHulban/log"
 )
 
 type SiteInfo struct {
@@ -30,7 +30,7 @@ type HTMLPageTemplates struct {
 type AppConfiguration struct {
 	AppConfigFile    string
 	SaveToConfigFile string
-	L                zerolog.Logger
+	L                *log.Logger
 
 	SiteInfo
 	HTMLPageTemplates

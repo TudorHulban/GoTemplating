@@ -5,13 +5,13 @@ import (
 	"io/ioutil"
 	"os"
 
+	"github.com/TudorHulban/log"
 	"github.com/pkg/errors"
-	"github.com/rs/zerolog"
 )
 
 // NewConfiguration Constructor for application configuration.
 // TODO: consider moving to options once the validation criterias emerge.
-func NewConfiguration(importFrom string, logLevel zerolog.Level) (*AppConfiguration, error) {
+func NewConfiguration(importFrom string, logLevel int) (*AppConfiguration, error) {
 	if importFrom == "" {
 		return defaultConfiguration()
 	}
@@ -34,7 +34,7 @@ func NewConfiguration(importFrom string, logLevel zerolog.Level) (*AppConfigurat
 	return &AppConfiguration{
 		SiteInfo:          result.SiteInfo,
 		HTMLPageTemplates: result.HTMLPageTemplates,
-		L:                 zerolog.New(os.Stderr).With().Timestamp().Logger().Level(logLevel),
+		L:                 log.NewLogger(log.DEBUG, os.Stdout, true),
 	}, nil
 }
 

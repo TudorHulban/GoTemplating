@@ -3,8 +3,8 @@ package config
 import (
 	"os"
 
+	"github.com/TudorHulban/log"
 	"github.com/pkg/errors"
-	"github.com/rs/zerolog"
 )
 
 type Option func(cfg *AppConfiguration) error
@@ -35,7 +35,7 @@ func defaultConfiguration(options ...Option) (*AppConfiguration, error) {
 			Footer:           "07_footer.gohtml",
 		},
 
-		L: zerolog.New(os.Stderr).With().Caller().Timestamp().Logger().Level(zerolog.DebugLevel),
+		L: log.NewLogger(log.DEBUG, os.Stdout, true),
 	}
 
 	// moved below initialization in order to use the logger

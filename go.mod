@@ -3,11 +3,11 @@ module github.com/TudorHulban/GoTemplating
 go 1.16
 
 require (
+	github.com/TudorHulban/log v0.0.0-20210324101504-5b18a3c2067b
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/gofiber/fiber/v2 v2.6.0
 	github.com/klauspost/compress v1.11.12 // indirect
 	github.com/pkg/errors v0.9.1
-	github.com/rs/zerolog v1.20.0
 	github.com/stretchr/testify v1.7.0
 	github.com/valyala/fasthttp v1.22.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect

@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 
-	"github.com/rs/zerolog"
+	"github.com/TudorHulban/log"
 
 	"github.com/TudorHulban/GoTemplating/internal/article"
 	"github.com/TudorHulban/GoTemplating/internal/blog"
@@ -16,10 +16,10 @@ var _ blog.IBlog = (*Blog)(nil)
 
 type Blog struct {
 	Data []article.Article
-	l    zerolog.Logger
+	l    *log.Logger
 }
 
-func NewBlogFromArticles(l zerolog.Logger, art ...article.Article) (blog.IBlog, error) {
+func NewBlogFromArticles(l *log.Logger, art ...article.Article) (blog.IBlog, error) {
 	result := Blog{
 		Data: []article.Article{},
 		l:    l,
@@ -40,7 +40,7 @@ func NewBlogFromArticles(l zerolog.Logger, art ...article.Article) (blog.IBlog, 
 
 // NewBlog Constructor, takes a list of file names and imports them.
 // The file names should point to JSON files containing article data.
-func NewBlogFromFiles(l zerolog.Logger, importFiles ...string) (blog.IBlog, error) {
+func NewBlogFromFiles(l *log.Logger, importFiles ...string) (blog.IBlog, error) {
 	result := Blog{
 		Data: []article.Article{},
 		l:    l,

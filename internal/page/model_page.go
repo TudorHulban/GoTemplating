@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/TudorHulban/GoTemplating/internal/article"
-	"github.com/rs/zerolog"
+	"github.com/TudorHulban/log"
 )
 
 type SiteInfo struct {
@@ -21,12 +21,12 @@ type Node struct {
 
 type Page struct {
 	Nodes [][]*Node
-	l     zerolog.Logger
+	l     *log.Logger
 }
 
 type Option func(p *Page) error
 
-func NewPage(l zerolog.Logger, options ...Option) (*Page, error) {
+func NewPage(l *log.Logger, options ...Option) (*Page, error) {
 	result := &Page{
 		Nodes: [][]*Node{},
 		l:     l,
@@ -44,13 +44,13 @@ func NewPage(l zerolog.Logger, options ...Option) (*Page, error) {
 // Add Method adds node.
 func (p *Page) Add(pos uint, n *Node) error {
 	if pos <= uint(len(p.Nodes)) {
-		p.l.Info().Msgf("Adding node at level %d", pos)
+		p.l.Infof("Adding node at level %d", pos)
 
 		p.Nodes[pos-1] = append(p.Nodes[pos-1], n)
 		return nil
 	}
 
-	p.l.Info().Msgf("Adding new level %d", pos)
+	p.l.Infof("Adding new level %d", pos)
 	p.Nodes = append(p.Nodes, []*Node{n})
 
 	return nil
@@ -81,13 +81,13 @@ func (p *Page) GetString() string {
 func (p *Page) RenderArticle(a article.Article) error {
 	t, errParse := template.New("").Parse(p.GetString())
 	if errParse != nil {
-		p.l.Warn().Str("errParse", errParse.Error()).Msg("")
+		p.l.Warn("errParse", errParse)
 		return errParse
 	}
 
 	f, errCreate := os.Create(a.CODE + ".html")
 	if errCreate != nil {
-		p.l.Warn().Msgf("error creating file into which to render: %s", errCreate.Error())
+		p.l.Warnf("error creating file into which to render: %s", errCreate.Error())
 		return errCreate
 	}
 	defer f.Close()
@@ -100,7 +100,7 @@ func (p *Page) RenderArticle(a article.Article) error {
 	}
 
 	if errExec := t.Execute(f, model); errExec != nil {
-		p.l.Warn().Msgf("error parsing template: %s", errExec.Error())
+		p.l.Warnf("error parsing template: %s", errExec.Error())
 		return errExec
 	}
 

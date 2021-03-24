@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"github.com/TudorHulban/GoTemplating/internal/article"
-	"github.com/rs/zerolog"
+	"github.com/TudorHulban/log"
 	"github.com/stretchr/testify/require"
 )
 
@@ -15,7 +15,7 @@ import (
 // test save article
 // test save articles
 
-var l = zerolog.New(os.Stderr).With().Timestamp().Logger().Level(zerolog.DebugLevel)
+var l = log.NewLogger(log.DEBUG, os.Stdout, true)
 
 func TestBlogArticles(t *testing.T) {
 	b, err := NewBlogFromArticles(l, article.DefaultArticles()...)
