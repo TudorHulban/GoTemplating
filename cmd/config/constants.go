@@ -2,7 +2,7 @@ package config
 
 const (
 	defaultAppConfigurationFileName = "cfg.json"
-	defaultArticlesFolder           = "/articles"
-	defaultRenderArticlesFolder     = "/renderedarticles"
+	defaultArticlesRAWFolder        = "articles"
+	defaultArticlesRenderedFolder   = "renderedarticles"
 	ExtensionArticleFile            = ".art"
 )

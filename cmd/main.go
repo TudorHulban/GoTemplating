@@ -2,22 +2,23 @@ package main
 
 import (
 	"io/ioutil"
-	"log"
 	"os"
 
 	"github.com/TudorHulban/GoTemplating/cmd/config"
 	"github.com/TudorHulban/GoTemplating/internal/blog/blogfile"
 	"github.com/TudorHulban/GoTemplating/pkg/httpserve"
+	"github.com/TudorHulban/log"
 )
 
 func main() {
 	cfg, errCfg := config.NewConfiguration("", 3)
 	if errCfg != nil {
-		log.Println(errCfg)
+		l := log.NewLogger(log.DEBUG, os.Stdout, true)
+		l.Printf("configuration error %s", errCfg)
 		os.Exit(1)
 	}
 
-	articles, errGet := getFiles(cfg.RenderArticlesFolder, config.ExtensionArticleFile)
+	articles, errGet := getFiles(cfg.L, cfg.ArticlesRAWFolder, config.ExtensionArticleFile)
 	if errGet != nil {
 		cfg.L.Print(errGet)
 		os.Exit(2)
@@ -49,15 +50,16 @@ func main() {
 
 	http, errStart := httpserve.NewHTTPServer(c)
 	if errStart != nil {
-		log.Println(errStart)
+		cfg.L.Info(errStart)
 		os.Exit(6)
 	}
 
 	http.Start()
 }
 
-func getFiles(fromFolder, withExtension string) ([]string, error) {
+func getFiles(l *log.Logger, fromFolder, withExtension string) ([]string, error) {
 	// TODO: improve validation
+	l.Debugf("searching folder %s for files with extension %s", fromFolder, withExtension)
 
 	files, err := ioutil.ReadDir(fromFolder)
 	if err != nil {
@@ -68,7 +70,9 @@ func getFiles(fromFolder, withExtension string) ([]string, error) {
 
 	for _, v := range files {
 		if v.IsDir() == false {
-			result = append(result, v.Name())
+			path := fromFolder + "/" + v.Name()
+			l.Debugf("adding file %s", path)
+			result = append(result, path)
 		}
 	}
 

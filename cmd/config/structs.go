@@ -7,9 +7,11 @@ import (
 )
 
 type SiteInfo struct {
-	FaviconImagePath     string
-	SiteLogoPath         string
-	RenderArticlesFolder string
+	FaviconImagePath string
+	SiteLogoPath     string
+
+	ArticlesRAWFolder      string
+	ArticlesRenderToFolder string
 }
 
 // HTMLPageTemplates Consolidates HTML page templates.
