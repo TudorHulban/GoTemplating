@@ -92,7 +92,7 @@ func (p *Page) RenderArticle(a article.Article, renderToFolder string) error {
 		return errParse
 	}
 
-	toPath := renderToFolder + "/" + a.CODE + ".html"
+	toPath := renderToFolder + "/" + strings.ToLower(a.CODE) + ".html"
 	p.l.Debugf("article to be rendered to: %s", toPath)
 
 	f, errCreate := os.Create(toPath)
@@ -102,8 +102,8 @@ func (p *Page) RenderArticle(a article.Article, renderToFolder string) error {
 	}
 	defer f.Close()
 
-	p.l.Debug("page HTML:")
-	p.l.Debug(p.GetString())
+	// p.l.Debug("page HTML:")
+	// p.l.Debug(p.GetString())
 
 	if errExec := t.Execute(f, a); errExec != nil {
 		p.l.Warnf("error parsing template: %s", errExec.Error())

@@ -44,8 +44,8 @@ func main() {
 
 	// start HTTP server
 	c := httpserve.Cfg{
-		ListenPort:         8008,
-		StaticAssetsFolder: "../renderedassets",
+		ListenPort:         cfg.ListeningPort,
+		StaticAssetsFolder: cfg.ArticlesRenderToFolder,
 	}
 
 	http, errStart := httpserve.NewHTTPServer(c)

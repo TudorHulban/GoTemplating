@@ -2,6 +2,7 @@
  "AppConfigFile": "cfg.json",
  "SaveToConfigFile": "",
  "L": {},
+ "ListeningPort": 8080,
  "FaviconImagePath": "",
  "SiteLogoPath": "",
  "ArticlesRAWFolder": "articles",

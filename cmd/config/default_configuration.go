@@ -25,6 +25,7 @@ func defaultConfiguration(options ...Option) (*AppConfiguration, error) {
 
 	result := &AppConfiguration{
 		SiteInfo: SiteInfo{
+			ListeningPort:          defaultListeningPort,
 			ArticlesRAWFolder:      defaultArticlesRAWFolder,
 			ArticlesRenderToFolder: renderToFolder,
 		},

@@ -7,6 +7,7 @@ import (
 )
 
 type SiteInfo struct {
+	ListeningPort    int
 	FaviconImagePath string
 	SiteLogoPath     string
 

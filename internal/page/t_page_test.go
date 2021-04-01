@@ -5,13 +5,13 @@ import (
 	"os"
 	"testing"
 
-	"github.com/rs/zerolog"
+	"github.com/TudorHulban/log"
 	"github.com/stretchr/testify/require"
 )
 
 // TODO: move to table driven test.
 func TestPage(t *testing.T) {
-	l := zerolog.New(os.Stderr).With().Timestamp().Logger().Level(zerolog.DebugLevel)
+	l := log.NewLogger(log.DEBUG, os.Stdout, true)
 	p, _ := NewPage(l)
 
 	require.Nil(t, p.Add(p.GetCurrentPos()+1, &Node{

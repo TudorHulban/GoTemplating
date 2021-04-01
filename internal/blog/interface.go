@@ -4,6 +4,7 @@ package blog
 // Blog types should save automatically articles to persistance when there is a change.
 type IBlog interface {
 	RenderArticles() error
+
 	//RenderArticlesSummarization() error
 
 	//GetArticles() ([]Article, error)
